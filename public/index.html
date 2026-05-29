@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>stak.dev — node project scaffolder</title>
+<meta name="description" content="Pick your packages, get your install command. The missing initializr for Node.js.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="wordmark">stak<span>.dev</span></div>
+    <div class="tagline">the missing initializr for node.js</div>
+  </header>
+
+  <span class="input-label">packages</span>
+  <div class="input-wrap">
+    <input autocomplete="off" spellcheck="false" id="pkg-input" />
+    <div class="suggestions" id="suggestions"></div>
+  </div>
+
+  <div class="chips" id="chips"></div>
+  <div class="conflict-banner" id="conflict-banner"></div>
+
+  <div class="pm-row">
+    <button class="pm-btn active" data-pm="npm">npm</button>
+    <button class="pm-btn" data-pm="yarn">yarn</button>
+    <button class="pm-btn" data-pm="pnpm">pnpm</button>
+    <button class="pm-btn" data-pm="bun">bun</button>
+  </div>
+
+  <div class="toggle-row">
+    <div class="toggle" id="fresh-toggle"><div class="toggle-knob"></div></div>
+    <span>fresh project (init first)</span>
+  </div>
+
+  <div class="output" id="output">
+    <span class="section-label">install command</span>
+    <div class="cmd-box" id="cmd-box"></div>
+    <div class="action-row">
+      <button class="act-btn" id="copy-cmd">[ copy command ]</button>
+      <button class="act-btn" id="copy-pkg">[ copy package.json ]</button>
+    </div>
+
+    <div class="cdn-section" id="cdn-section" style="display:none">
+      <span class="section-label" style="margin-top:2rem;display:block">cdn links — unpkg</span>
+      <div id="cdn-list"></div>
+    </div>
+
+    <div class="share-section">
+      <input class="share-input" id="share-url" readonly />
+      <button class="share-copy" id="copy-share">[ copy link ]</button>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">stak<span>.dev</span></div>
+        <div class="footer-tagline">the missing initializr for node.js</div>
+      </div>
+      <div class="footer-links">
+        <a href="https://www.npmjs.com" target="_blank">npm registry</a>
+        <a href="https://github.com" target="_blank">github</a>
+        <a href="#terms" onclick="document.getElementById('terms-modal').style.display='flex';return false;">terms</a>
+        <a href="#privacy" onclick="document.getElementById('privacy-modal').style.display='flex';return false;">privacy</a>
+      </div>
+    </div>
+    <div class="footer-legal">
+      package data sourced from the <a href="https://www.npmjs.com" target="_blank">npm public registry</a> under their terms of use.
+      stak.dev does not host, distribute, or modify any packages. version data is fetched in real-time and may occasionally be delayed.
+      use at your own discretion. &copy; 2026 stak.dev
+    </div>
+  </footer>
+
+  <!-- terms modal -->
+  <div id="terms-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:999;align-items:center;justify-content:center;" onclick="if(event.target===this)this.style.display='none'">
+    <div style="background:var(--bg);border:1px solid var(--border);max-width:520px;width:90%;padding:2rem;max-height:80vh;overflow-y:auto;position:relative;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
+        <span style="font-size:14px;font-weight:500;letter-spacing:0.06em;">terms of use</span>
+        <span onclick="document.getElementById('terms-modal').style.display='none'" style="cursor:pointer;font-size:20px;color:var(--muted);line-height:1;">×</span>
+      </div>
+      <div style="font-size:13px;line-height:1.9;color:#444;font-family:'Inter',sans-serif;">
+        <p style="margin-bottom:1rem;"><strong style="color:var(--fg);font-weight:500;">1. service</strong><br>stak.dev is a free tool that helps developers discover and install npm packages. we provide a convenience layer over the public npm registry.</p>
+        <p style="margin-bottom:1rem;"><strong style="color:var(--fg);font-weight:500;">2. no warranties</strong><br>this service is provided as-is. we make no guarantees about uptime, version accuracy, or package compatibility. always verify packages before using them in production.</p>
+        <p style="margin-bottom:1rem;"><strong style="color:var(--fg);font-weight:500;">3. package ownership</strong><br>all packages shown belong to their respective authors and are governed by their own licenses. stak.dev does not own, modify, or redistribute any package.</p>
+        <p style="margin-bottom:1rem;"><strong style="color:var(--fg);font-weight:500;">4. fair use</strong><br>do not use stak.dev to scrape, spam, or abuse the npm registry. automated or excessive requests may be rate-limited.</p>
+        <p><strong style="color:var(--fg);font-weight:500;">5. changes</strong><br>we may update these terms at any time. continued use constitutes acceptance.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- privacy modal -->
+  <div id="privacy-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:999;align-items:center;justify-content:center;" onclick="if(event.target===this)this.style.display='none'">
+    <div style="background:var(--bg);border:1px solid var(--border);max-width:520px;width:90%;padding:2rem;max-height:80vh;overflow-y:auto;position:relative;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
+        <span style="font-size:14px;font-weight:500;letter-spacing:0.06em;">privacy policy</span>
+        <span onclick="document.getElementById('privacy-modal').style.display='none'" style="cursor:pointer;font-size:20px;color:var(--muted);line-height:1;">×</span>
+      </div>
+      <div style="font-size:13px;line-height:1.9;color:#444;font-family:'Inter',sans-serif;">
+        <p style="margin-bottom:1rem;"><strong style="color:var(--fg);font-weight:500;">what we collect</strong><br>nothing. stak.dev has no accounts, no login, no cookies, no analytics, no tracking scripts.</p>
+        <p style="margin-bottom:1rem;"><strong style="color:var(--fg);font-weight:500;">search queries</strong><br>when you search for a package, the query is forwarded to the npm registry via our proxy. we do not log or store these queries.</p>
+        <p style="margin-bottom:1rem;"><strong style="color:var(--fg);font-weight:500;">shareable urls</strong><br>your package selections are stored only in the url itself. we have no database. when you share a link, the recipient can see what packages you selected — that's it.</p>
+        <p style="margin-bottom:1rem;"><strong style="color:var(--fg);font-weight:500;">cloudflare</strong><br>the site is hosted on cloudflare. cloudflare may collect basic network-level data (ip, request metadata) per their own <a href="https://www.cloudflare.com/privacypolicy/" target="_blank">privacy policy</a>.</p>
+        <p><strong style="color:var(--fg);font-weight:500;">contact</strong><br>questions? reach us via github.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script src="app.js"></script>
+</body>
+</html>
